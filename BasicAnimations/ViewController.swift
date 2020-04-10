@@ -60,6 +60,11 @@ class ViewController: UIViewController {
         squashButton.setTitle("Squash", for: .normal)
         squashButton.addTarget(self, action: #selector(squashButtonTapped), for: .touchUpInside)
         
+        let anticipationButton = UIButton(type: .system)
+        anticipationButton.translatesAutoresizingMaskIntoConstraints = false
+        anticipationButton.setTitle("Anticipation", for: .normal)
+        anticipationButton.addTarget(self, action: #selector(anticipationButtonTapped), for: .touchUpInside)
+        
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
@@ -71,6 +76,7 @@ class ViewController: UIViewController {
         stackView.addArrangedSubview(springButton)
         stackView.addArrangedSubview(keyButton)
         stackView.addArrangedSubview(squashButton)
+        stackView.addArrangedSubview(anticipationButton)
         
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -148,5 +154,26 @@ class ViewController: UIViewController {
         }
         
         UIView.animateKeyframes(withDuration: 2, delay: 0, options: [], animations: animationBlock, completion: nil)
+    }
+    
+    @objc private func anticipationButtonTapped() {
+        label.center = view.center
+        
+        let animBlock = {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.1) {
+                self.label.transform = CGAffineTransform(rotationAngle: .pi / 16.0)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.2) {
+                self.label.transform = CGAffineTransform(rotationAngle: -.pi / 16.0)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.8) {
+                self.label.center = CGPoint(
+                    x: self.view.bounds.size.width + self.label.bounds.size.width,
+                    y: self.view.bounds.size.height + self.label.bounds.size.height
+                )
+            }
+        }
+        
+        UIView.animateKeyframes(withDuration: 1.5, delay: 0, options: [], animations: animBlock, completion: nil)
     }
 }
