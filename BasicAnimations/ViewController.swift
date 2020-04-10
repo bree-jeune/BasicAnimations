@@ -45,6 +45,16 @@ class ViewController: UIViewController {
         rotateButton.setTitle("Rotate", for: .normal)
         rotateButton.addTarget(self, action: #selector(rotateButtonTapped), for: .touchUpInside)
         
+        let springButton = UIButton(type: .system)
+        springButton.translatesAutoresizingMaskIntoConstraints = false
+        springButton.setTitle("Spring", for: .normal)
+        springButton.addTarget(self, action: #selector(springButtonTapped), for: .touchUpInside)
+        
+        let keyButton = UIButton(type: .system)
+        keyButton.translatesAutoresizingMaskIntoConstraints = false
+        keyButton.setTitle("Key", for: .normal)
+        keyButton.addTarget(self, action: #selector(keyButtonTapped), for: .touchUpInside)
+        
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
@@ -53,6 +63,7 @@ class ViewController: UIViewController {
         stackView.distribution = .equalSpacing
         
         stackView.addArrangedSubview(rotateButton)
+        stackView.addArrangedSubview(springButton)
         
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -62,8 +73,27 @@ class ViewController: UIViewController {
     }
     
     @objc private func rotateButtonTapped() {
+        label.center = view.center
         
+        UIView.animate(withDuration: 2.0, animations: {
+            self.label.transform = CGAffineTransform(rotationAngle: .pi/4)
+        }) { _ in
+            UIView.animate(withDuration: 2.0) {
+                self.label.transform = .identity
+            }
+        }
     }
     
+    @objc private func springButtonTapped() {
+        label.center = view.center
+        
+        label.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
+        UIView.animate(withDuration: 3.0, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: [], animations: {
+            self.label.transform = .identity
+        }, completion: nil)
+    }
     
+    @objc private func keyButtonTapped() {
+        
+    }
 }
