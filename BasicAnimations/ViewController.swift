@@ -123,6 +123,30 @@ class ViewController: UIViewController {
     }
     
     @objc private func squashButtonTapped() {
+        label.center = CGPoint(x: view.center.x, y: -label.bounds.size.height)
         
+        let animationBlock = {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
+                self.label.center = self.view.center
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.2) {
+                self.label.transform = CGAffineTransform(scaleX: 2.0, y: 0.6)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.2) {
+                self.label.transform = CGAffineTransform(scaleX: 0.6, y: 2.0)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 0.15) {
+                self.label.transform = CGAffineTransform(scaleX: 1.11, y: 0.9)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.85, relativeDuration: 0.15) {
+                self.label.transform = .identity
+            }
+        }
+        
+        UIView.animateKeyframes(withDuration: 2, delay: 0, options: [], animations: animationBlock, completion: nil)
     }
 }
